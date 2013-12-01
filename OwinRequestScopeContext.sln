@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D2458B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Sample.IIS", "Sample\OwinRequestScopeContext.Sample.IIS\OwinRequestScopeContext.Sample.IIS\OwinRequestScopeContext.Sample.IIS.csproj", "{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Sample.IIS", "Sample\OwinRequestScopeContext.Sample.IIS\OwinRequestScopeContext.Sample.IIS.csproj", "{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
