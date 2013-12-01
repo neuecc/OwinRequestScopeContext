@@ -1,7 +1,7 @@
 OwinRequestScopeContext
 =======================
 
-Owin Middleware it is possible to RequestScopeContext like HttpContext.Current.
+Owin Middleware it is possible to RequestScopeContext like HttpContext.Current but no dependent System.Web.
 
 Install
 ---
@@ -58,7 +58,7 @@ app.Run(async _ =>
 });
 ```
 
-Full code is avaliable on this Repositry, [a](https://github.com/neuecc/OwinRequestScopeContext/tree/master/OwinRequestScopeContext.Sample.SelfHost).
+Full code is avaliable on this Repositry, [OwinRequestScopeContext.Sample.SelfHost](https://github.com/neuecc/OwinRequestScopeContext/tree/master/OwinRequestScopeContext.Sample.SelfHost).
 
 History
 ---
