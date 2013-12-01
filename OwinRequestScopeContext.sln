@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext", "Source\OwinRequestScopeContext\OwinRequestScopeContext.csproj", "{C6304930-E944-4B4F-BA1C-7377C5A415E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Test", "Tests\OwinRequestScopeContext.Test\OwinRequestScopeContext.Test.csproj", "{80973DE4-FA38-4577-B681-CB3042A4C9BE}"

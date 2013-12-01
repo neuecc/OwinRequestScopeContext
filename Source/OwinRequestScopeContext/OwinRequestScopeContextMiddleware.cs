@@ -44,6 +44,12 @@ namespace Owin
 
     public static class AppBuilderOwinRequestScopeContextMiddlewareExtensions
     {
+        /// <summary>
+        /// Use OwinRequestScopeContextMiddleware.
+        /// </summary>
+        /// <param name="app">Owin app.</param>
+        /// <param name="isThreadsafeItem">OwinRequestScopeContext.Item is threadsafe or not. Default is threadsafe.</param>
+        /// <returns></returns>
         public static IAppBuilder UseRequestScopeContext(this IAppBuilder app, bool isThreadsafeItem = true)
         {
             return app.Use(typeof(OwinRequestScopeContextMiddleware), isThreadsafeItem);

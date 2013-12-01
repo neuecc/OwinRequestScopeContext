@@ -33,11 +33,11 @@ app.Run(async _ =>
     // Timestamp is request started(correctly called RequestScopeContextMiddleware timing).
     var ___ = context.Timestamp;
 
-    // Items is IDictionary<string, object> like HttpContext#Items.
+    // Items is IDictionary<string, object> like HttpContext.Items.
     // Items is threadsafe(as ConcurrentDictionary) by default.
     var ____ = context.Items;
 
-    // DisposeOnPipelineCompleted can register dispose when request finished(correctly RequestScopeContextMiddleware underling Middlewares finished)
+    // DisposeOnPipelineCompleted can register dispose when request completed(correctly RequestScopeContextMiddleware underling Middlewares finished)
     // return value is cancelToken. If call token.Dispose() then canceled register.
     var cancelToken = context.DisposeOnPipelineCompleted(new TraceDisposable());
 

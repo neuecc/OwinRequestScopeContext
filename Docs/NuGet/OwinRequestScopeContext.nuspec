@@ -12,8 +12,12 @@
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
         <projectUrl>https://github.com/neuecc/OwinRequestScopeContext</projectUrl>
         <tags>OWIN</tags>
+        <dependencies>
+            <dependency id="Owin" version="1.0" />
+        </dependencies>
     </metadata>
     <files>
-        <file src="..\..\OwinRequestScopeContext\bin\Release\OwinRequestScopeContext.dll" target="lib\NET45" />
+        <file src="..\..\Source\OwinRequestScopeContext\bin\Release\OwinRequestScopeContext.dll" target="lib\NET45" />
+        <file src="..\..\Source\OwinRequestScopeContext\bin\Release\OwinRequestScopeContext.xml" target="lib\NET45" />
     </files>
 </package>

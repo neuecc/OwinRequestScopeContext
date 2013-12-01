@@ -6,11 +6,31 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Owin
 {
+    /// <summary>
+    /// RequestScopeContext for Owin.
+    /// </summary>
     public interface IOwinRequestScopeContext
     {
+        /// <summary>
+        /// <para>Enables an object's Dispose method to be called when the request completed.</para>
+        /// <para>Return value is subscription token. If calle token.Dispose() then canceled register.</para>
+        /// </summary>
+        /// <param name="target">IDisposable item.</param>
         IDisposable DisposeOnPipelineCompleted(IDisposable target);
+
+        /// <summary>
+        /// Raw Owin Environment dictionary.
+        /// </summary>
         IDictionary<string, object> Environment { get; }
+
+        /// <summary>
+        /// Gets a key/value collection that can be used to organize and share data during an HTTP request.
+        /// </summary>
         IDictionary<string, object> Items { get; }
+
+        /// <summary>
+        /// Gets the initial timestamp of the current HTTP request.
+        /// </summary>
         DateTime Timestamp { get; }
     }
 
@@ -18,6 +38,9 @@ namespace Owin
     {
         const string CallContextKey = "owin.rscopectx";
 
+        /// <summary>
+        /// Gets or sets the IOwinRequestScopeContext object for the current HTTP request.
+        /// </summary>
         public static IOwinRequestScopeContext Current
         {
             get
