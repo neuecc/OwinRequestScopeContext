@@ -45,7 +45,7 @@
     <Compile Include="OwinRequestScopeContext.cs" />
     <Compile Include="OwinRequestScopeContextMiddleware.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnsubscribeDispose.cs" />
+    <Compile Include="UnsubscribeDisposable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

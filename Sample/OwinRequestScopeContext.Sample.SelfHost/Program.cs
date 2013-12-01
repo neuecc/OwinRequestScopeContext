@@ -1,14 +1,11 @@
 ﻿using Microsoft.Owin.Hosting;
 using Owin;
 using System;
-using System.Threading;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Sample.SelfHost
 {
-    using System.Collections.Generic;
-    using AppFunc = Func<System.Collections.Generic.IDictionary<string, object>, System.Threading.Tasks.Task>;
-
     class Program
     {
         static void Main(string[] args)
@@ -24,89 +21,57 @@ namespace Sample.SelfHost
     {
         public void Configuration(Owin.IAppBuilder app)
         {
+            // using Owin; you can use UseRequestScopeContext extension method.
+            // enabled timing is according to Pipeline.
+            // so I recommend enable as far in advance as possible.
             app.UseRequestScopeContext();
+
             app.UseErrorPage();
-
-
-            app.Use(typeof(SimpleHandlerMiddleware));
-
-            // app.Use<ExceptionTestMiddleware>();
-
-            //app.Run(async ctx =>
-            //{
-            //    var _ = OwinRequestScopeContext .Current;
-            //    var tid = Thread.CurrentThread.ManagedThreadId;
-
-            //    ctx.Response.ContentType = "text/plain";
-            //    await ctx.Response.WriteAsync("hello");
-            //    await Task.Delay(TimeSpan.FromSeconds(1));
-
-
-            //    var tid2 = Thread.CurrentThread.ManagedThreadId;
-
-            //    var __ = OwinRequestScopeContext.Current;
-
-            //    Console.WriteLine(__);
-            //});
-        }
-    }
-
-    public class SimpleHandlerMiddleware
-    {
-        readonly AppFunc next;
-
-        public SimpleHandlerMiddleware(AppFunc next)
-        {
-            this.next = next;
-
-        }
-
-        public async Task Invoke(IDictionary<string, object> environment)
-        {
-            var ctx = new Microsoft.Owin.OwinContext(environment);
-            ctx.Response.ContentType = "text/plain";
-
-            //var vv4 = System.Runtime.Remoting.Messaging.CallContext.GetData("owin.rscopectx");
-            System.Runtime.Remoting.Messaging.CallContext.LogicalSetData("owin.rscopectx", "hogehoge");
-
-            var ______ = OwinRequestScopeContext.Current;
-
-            await ctx.Response.WriteAsync("hello");
-            await Task.Delay(TimeSpan.FromSeconds(1));
-
-            var vv = System.Runtime.Remoting.Messaging.CallContext.GetData("owin.rscopectx");
-
-            var t = Task.Run(() =>
+            app.Run(async _ =>
             {
-                var v = System.Runtime.Remoting.Messaging.CallContext.GetData("owin.rscopectx");
-                var ___ = v;
+                // get global context like HttpContext.Current.
+                var context = OwinRequestScopeContext.Current;
+
+                // Environment is raw Owin Environment as IDictionary<string, object>.
+                var __ = context.Environment;
+
+                // optional:If you want to change Microsoft.Owin.OwinContext, you can wrap.
+                new Microsoft.Owin.OwinContext(context.Environment);
+
+                // Timestamp is request started(correctly called RequestScopeContextMiddleware timing).
+                var ___ = context.Timestamp;
+
+                // Items is IDictionary<string, object> like HttpContext#Items.
+                // Items is threadsafe(as ConcurrentDictionary) by default.
+                var ____ = context.Items;
+
+                // DisposeOnPipelineCompleted can register dispose when request finished(correctly RequestScopeContextMiddleware underling Middlewares finished)
+                // return value is cancelToken. If call token.Dispose() then canceled register.
+                var cancelToken = context.DisposeOnPipelineCompleted(new TraceDisposable());
+
+                // OwinRequestScopeContext over async/await also ConfigureAwait(false)
+                context.Items["test"] = "foo";
+                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+                var _____ = OwinRequestScopeContext.Current.Items["test"]; // foo
+
+                await Task.Run(() =>
+                {
+                    // OwinRequestScopeContext over new thread/threadpool.
+                    var ______ = OwinRequestScopeContext.Current.Items["test"]; // foo
+                });
+
+                _.Response.ContentType = "text/plain";
+                await _.Response.WriteAsync("Hello OwinRequestScopeContext! => ");
+                await _.Response.WriteAsync(OwinRequestScopeContext.Current.Items["test"] as string); // render foo
             });
-
-            var ________ = OwinRequestScopeContext.Current;
-
-
-
-
-
-
-
-
-
-            await this.next.Invoke(environment);
         }
     }
 
-    public class ExceptionTestMiddleware : Microsoft.Owin.OwinMiddleware
+    public class TraceDisposable : IDisposable
     {
-        public ExceptionTestMiddleware(Microsoft.Owin.OwinMiddleware next)
-            : base(next)
+        public void Dispose()
         {
-
-        }
-
-        public override Task Invoke(Microsoft.Owin.IOwinContext context)
-        {
-            throw new Exception();
+            Debug.WriteLine("Disposed");
         }
     }
 }

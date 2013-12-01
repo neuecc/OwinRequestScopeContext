@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Owin.Test
 {
@@ -52,6 +52,38 @@ namespace Owin.Test
             });
 
             await semaphore.WaitAsync();
+        }
+
+        [TestMethod]
+        public async Task IsolateTest()
+        {
+            var blankEnvironment = new Dictionary<string, object>();
+
+            var aInitialized = new SemaphoreSlim(1);
+            var bFinished = new SemaphoreSlim(1);
+
+            var a = Task.Run(async () =>
+            {
+                OwinRequestScopeContext.Current = new OwinRequestScopeContext(blankEnvironment, true);
+                OwinRequestScopeContext.Current.Items["test"] = "foo";
+                aInitialized.Release();
+
+                await bFinished.WaitAsync();
+                OwinRequestScopeContext.Current.Items["test"].Is("foo");
+            });
+            
+            var b = Task.Run(async () =>
+            {
+                await aInitialized.WaitAsync();
+
+                OwinRequestScopeContext.Current.IsNull();
+                OwinRequestScopeContext.Current = new OwinRequestScopeContext(blankEnvironment, true);
+                OwinRequestScopeContext.Current.Items["test"] = "bar";
+
+                bFinished.Release();
+            });
+
+            await Task.WhenAll();
         }
     }
 }
