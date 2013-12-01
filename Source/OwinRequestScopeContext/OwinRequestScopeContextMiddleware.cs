@@ -30,8 +30,6 @@ namespace Owin
         {
             var scopeContext = new OwinRequestScopeContext(environment, threadSafeItem);
             OwinRequestScopeContext.Current = scopeContext;
-            var syncContext = new OwinRequestScopeSynchronizationContext(scopeContext);
-            SynchronizationContext.SetSynchronizationContext(syncContext);
 
             try
             {
@@ -46,9 +44,9 @@ namespace Owin
 
     public static class AppBuilderOwinRequestScopeContextMiddlewareExtensions
     {
-        public static IAppBuilder UseRequestScopeContext(this IAppBuilder app, bool isThreadsafe = false)
+        public static IAppBuilder UseRequestScopeContext(this IAppBuilder app, bool isThreadsafeItem = true)
         {
-            return app.Use(typeof(OwinRequestScopeContextMiddleware), isThreadsafe);
+            return app.Use(typeof(OwinRequestScopeContextMiddleware), isThreadsafeItem);
         }
     }
 }
