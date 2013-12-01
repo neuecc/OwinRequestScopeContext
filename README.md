@@ -1,7 +1,7 @@
 OwinRequestScopeContext
 =======================
 
-Owin Middleware it is possible to RequestScopeContext like HttpContext.Current.
+Owin Middleware it is possible to RequestScopeContext like HttpContext.Current but no dependent System.Web.
 
 Install
 ---
