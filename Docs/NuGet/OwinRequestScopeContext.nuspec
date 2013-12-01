@@ -7,7 +7,7 @@
         <authors>neuecc</authors>
         <owners>neuecc</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>Owin Middleware it is possible to RequestScopeContext like HttpContext.Current.</description>
+        <description>Owin Middleware it is possible to RequestScopeContext like HttpContext.Current but no dependent System.Web.</description>
         <language>en-US</language>
         <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
         <projectUrl>https://github.com/neuecc/OwinRequestScopeContext</projectUrl>
