@@ -53,6 +53,11 @@ namespace Owin
             }
         }
 
+        internal static void FreeContextSlot()
+        {
+            CallContext.FreeNamedDataSlot(CallContextKey);
+        }
+
         readonly DateTime utcTimestamp = DateTime.UtcNow;
         readonly List<UnsubscribeDisposable> disposables;
         readonly ConcurrentQueue<UnsubscribeDisposable> disposablesThreadsafeQueue;

@@ -37,7 +37,14 @@ namespace Owin
             }
             finally
             {
-                scopeContext.Complete();
+                try
+                {
+                    scopeContext.Complete();
+                }
+                finally
+                {
+                    OwinRequestScopeContext.FreeContextSlot();
+                }
             }
         }
     }
