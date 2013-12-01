@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D2458B
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Sample.IIS", "Sample\OwinRequestScopeContext.Sample.IIS\OwinRequestScopeContext.Sample.IIS\OwinRequestScopeContext.Sample.IIS.csproj", "{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{DE408DCC-4A8B-4B77-9DF9-E9B1D2D67DA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE408DCC-4A8B-4B77-9DF9-E9B1D2D67DA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE408DCC-4A8B-4B77-9DF9-E9B1D2D67DA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D642F8FF-1F43-4E67-8985-6AE5A6C917EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

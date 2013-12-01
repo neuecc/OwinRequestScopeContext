@@ -62,6 +62,11 @@ Full code is avaliable on this Repositry, [OwinRequestScopeContext.Sample.SelfHo
 
 History
 ---
+2013-12-01 ver 1.0.1
+* fix DisposeOnPipelineCompleted is not work.
+* improved DisposeOnPipelineCompleted queue is threadsafe when isThreadSafe is true.
+* Add Sample.IIS(run on System.Web)
+
 2013-12-01 ver 1.0.0
 * first release.
 

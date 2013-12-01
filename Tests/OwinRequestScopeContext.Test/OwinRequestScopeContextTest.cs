@@ -71,7 +71,7 @@ namespace Owin.Test
                 await bFinished.WaitAsync();
                 OwinRequestScopeContext.Current.Items["test"].Is("foo");
             });
-            
+
             var b = Task.Run(async () =>
             {
                 await aInitialized.WaitAsync();
@@ -84,6 +84,55 @@ namespace Owin.Test
             });
 
             await Task.WhenAll();
+        }
+
+        [TestMethod]
+        public void DisposeOnPipelineCompleted()
+        {
+            foreach (var threadSafe in new[] { true, false })
+            {
+                var blankEnvironment = new Dictionary<string, object>();
+                var context = new OwinRequestScopeContext(blankEnvironment, threadSafe);
+
+                var disp = new MonitorDisposable();
+                disp.IsDisposeCalled.IsFalse();
+                context.DisposeOnPipelineCompleted(disp);
+                disp.IsDisposeCalled.IsFalse();
+
+                context.AsDynamic().Complete(); // internal complete method
+
+                disp.IsDisposeCalled.IsTrue();
+            }
+        }
+
+        [TestMethod]
+        public void DisposeOnPipelineCompleted_Cancel()
+        {
+            foreach (var threadSafe in new[] { true, false })
+            {
+                var blankEnvironment = new Dictionary<string, object>();
+                var context = new OwinRequestScopeContext(blankEnvironment, threadSafe);
+
+                var disp = new MonitorDisposable();
+                disp.IsDisposeCalled.IsFalse();
+                var token = context.DisposeOnPipelineCompleted(disp);
+                disp.IsDisposeCalled.IsFalse();
+
+                token.Dispose();
+
+                context.AsDynamic().Complete(); // internal complete method
+
+                disp.IsDisposeCalled.IsFalse();
+            }
+        }
+    }
+
+    public class MonitorDisposable : IDisposable
+    {
+        public bool IsDisposeCalled { get; set; }
+        public void Dispose()
+        {
+            IsDisposeCalled = true;
         }
     }
 }

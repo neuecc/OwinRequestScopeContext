@@ -54,7 +54,8 @@ namespace Owin
         }
 
         readonly DateTime utcTimestamp = DateTime.UtcNow;
-        readonly List<IDisposable> disposables = new List<IDisposable>();
+        readonly List<UnsubscribeDisposable> disposables;
+        readonly ConcurrentQueue<UnsubscribeDisposable> disposablesThreadsafeQueue;
 
         public IDictionary<string, object> Environment { get; private set; }
         public IDictionary<string, object> Items { get; private set; }
@@ -64,9 +65,16 @@ namespace Owin
         {
             this.utcTimestamp = DateTime.UtcNow;
             this.Environment = environment;
-            this.Items = (threadSafeItem)
-                ? new ConcurrentDictionary<string, object>()
-                : (IDictionary<string, object>)new Dictionary<string, object>();
+            if (threadSafeItem)
+            {
+                this.Items = new ConcurrentDictionary<string, object>();
+                this.disposablesThreadsafeQueue = new ConcurrentQueue<UnsubscribeDisposable>();
+            }
+            else
+            {
+                this.Items = new Dictionary<string, object>();
+                this.disposables = new List<UnsubscribeDisposable>();
+            }
         }
 
         public IDisposable DisposeOnPipelineCompleted(IDisposable target)
@@ -74,7 +82,14 @@ namespace Owin
             if (target == null) throw new ArgumentNullException("target");
 
             var token = new UnsubscribeDisposable(target);
-            disposables.Add(token);
+            if (disposables != null)
+            {
+                disposables.Add(token);
+            }
+            else
+            {
+                disposablesThreadsafeQueue.Enqueue(token);
+            }
             return token;
         }
 
@@ -83,9 +98,20 @@ namespace Owin
             var exceptions = new List<Exception>();
             try
             {
-                foreach (var item in disposables)
+                if (disposables != null)
                 {
-                    item.Dispose();
+                    foreach (var item in disposables)
+                    {
+                        item.CallTargetDispose();
+                    }
+                }
+                else
+                {
+                    UnsubscribeDisposable target;
+                    while (disposablesThreadsafeQueue.TryDequeue(out target))
+                    {
+                        target.CallTargetDispose();
+                    }
                 }
             }
             catch (Exception ex)
