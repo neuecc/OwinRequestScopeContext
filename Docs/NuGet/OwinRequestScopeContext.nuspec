@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>OwinRequestScopeContext</id>
+        <version>1.0.0</version>
+        <title>OwinRequestScopeContext</title>
+        <authors>neuecc</authors>
+        <owners>neuecc</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Owin Middleware it is possible to RequestScopeContext like HttpContext.Current.</description>
+        <language>en-US</language>
+        <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+        <projectUrl>https://github.com/neuecc/OwinRequestScopeContext</projectUrl>
+        <tags>OWIN</tags>
+    </metadata>
+    <files>
+        <file src="..\..\OwinRequestScopeContext\bin\Release\OwinRequestScopeContext.dll" target="lib\NET45" />
+    </files>
+</package>

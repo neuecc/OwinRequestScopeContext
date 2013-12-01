@@ -1,25 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext", "..\Source\OwinRequestScopeContext\OwinRequestScopeContext.csproj", "{C6304930-E944-4B4F-BA1C-7377C5A415E9}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext", "Source\OwinRequestScopeContext\OwinRequestScopeContext.csproj", "{C6304930-E944-4B4F-BA1C-7377C5A415E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Test", "..\Tests\OwinRequestScopeContext.Test\OwinRequestScopeContext.Test.csproj", "{80973DE4-FA38-4577-B681-CB3042A4C9BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Test", "Tests\OwinRequestScopeContext.Test\OwinRequestScopeContext.Test.csproj", "{80973DE4-FA38-4577-B681-CB3042A4C9BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Sample.SelfHost", "..\Sample\OwinRequestScopeContext.Sample.SelfHost\OwinRequestScopeContext.Sample.SelfHost.csproj", "{DE408DCC-4A8B-4B77-9DF9-E9B1D2D67DA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwinRequestScopeContext.Sample.SelfHost", "Sample\OwinRequestScopeContext.Sample.SelfHost\OwinRequestScopeContext.Sample.SelfHost.csproj", "{DE408DCC-4A8B-4B77-9DF9-E9B1D2D67DA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{DFD237F3-E759-44F7-B80C-5AFEC4CEECA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root", "Root", "{A636EDA6-4D22-412A-822F-36B28375F378}"
 	ProjectSection(SolutionItems) = preProject
-		..\.gitattributes = ..\.gitattributes
-		..\.gitignore = ..\.gitignore
-		..\LICENSE = ..\LICENSE
-		..\README.md = ..\README.md
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{83C6301E-1412-43D1-BC08-D2DF84FB17B2}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\NuGet\NuGet.exe = Docs\NuGet\NuGet.exe
+		Docs\NuGet\OwinRequestScopeContext.nuspec = Docs\NuGet\OwinRequestScopeContext.nuspec
+		Docs\NuGet\pack.bat = Docs\NuGet\pack.bat
+		Docs\NuGet\push.bat = Docs\NuGet\push.bat
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D2458B3B-6BBE-4E07-9662-2295AF1FAF2E}"
 	ProjectSection(SolutionItems) = preProject
