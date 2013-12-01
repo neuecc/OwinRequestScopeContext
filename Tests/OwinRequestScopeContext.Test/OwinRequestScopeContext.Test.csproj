@@ -52,11 +52,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ChainingAssertion.MSTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="OwinRequestScopeContextTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\OwinRequestScopeContext\OwinRequestScopeContext.csproj">
+      <Project>{c6304930-e944-4b4f-ba1c-7377c5a415e9}</Project>
+      <Name>OwinRequestScopeContext</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
