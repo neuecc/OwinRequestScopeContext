@@ -9,6 +9,12 @@ namespace Owin.Test
     [TestClass]
     public class OwinRequestScopeContextTest
     {
+        public class ComplexType
+        {
+            public int Hoge { get; set; }
+            public string Huga { get; set; }
+        }
+
         [TestMethod]
         public async Task Current()
         {
@@ -18,6 +24,7 @@ namespace Owin.Test
 
             OwinRequestScopeContext.Current.Items["test"] = 10;
             OwinRequestScopeContext.Current.Items["test2"] = 100;
+            OwinRequestScopeContext.Current.Items["test3"] = new ComplexType { Hoge = 10, Huga = "aaa" };
 
             await Task.Delay(TimeSpan.FromMilliseconds(10));
 
@@ -25,31 +32,59 @@ namespace Owin.Test
             OwinRequestScopeContext.Current.IsNotNull();
             OwinRequestScopeContext.Current.Items["test"].Is(10);
             OwinRequestScopeContext.Current.Items["test2"].Is(100);
+            (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Hoge.Is(10);
+            (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Huga.Is("aaa");
 
             await Task.Delay(TimeSpan.FromMilliseconds(10)).ConfigureAwait(false);
 
             OwinRequestScopeContext.Current.IsNotNull();
             OwinRequestScopeContext.Current.Items["test"].Is(10);
             OwinRequestScopeContext.Current.Items["test2"].Is(100);
+            (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Hoge.Is(10);
+            (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Huga.Is("aaa");
+
+            var threadId = Thread.CurrentThread.ManagedThreadId;
 
             // run another thread
-            var t = Task.Run(() =>
+            var t = Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.ManagedThreadId.IsNot(threadId);
+
                 OwinRequestScopeContext.Current.IsNotNull();
                 OwinRequestScopeContext.Current.Items["test"].Is(10);
                 OwinRequestScopeContext.Current.Items["test2"].Is(100);
-            });
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Hoge.Is(10);
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Huga.Is("aaa");
+            }, TaskCreationOptions.LongRunning);
 
             await t;
 
             var semaphore = new SemaphoreSlim(1);
             ThreadPool.QueueUserWorkItem(_ =>
             {
+                Thread.CurrentThread.ManagedThreadId.IsNot(threadId);
+
                 OwinRequestScopeContext.Current.IsNotNull();
                 OwinRequestScopeContext.Current.Items["test"].Is(10);
                 OwinRequestScopeContext.Current.Items["test2"].Is(100);
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Hoge.Is(10);
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Huga.Is("aaa");
                 semaphore.Release();
             });
+
+            await semaphore.WaitAsync();
+
+            new Thread(_ =>
+            {
+                Thread.CurrentThread.ManagedThreadId.IsNot(threadId);
+
+                OwinRequestScopeContext.Current.IsNotNull();
+                OwinRequestScopeContext.Current.Items["test"].Is(10);
+                OwinRequestScopeContext.Current.Items["test2"].Is(100);
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Hoge.Is(10);
+                (OwinRequestScopeContext.Current.Items["test3"] as ComplexType).Huga.Is("aaa");
+                semaphore.Release();
+            }).Start();
 
             await semaphore.WaitAsync();
         }
